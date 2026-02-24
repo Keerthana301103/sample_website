@@ -54,7 +54,7 @@
             color: white; 
             border: none; 
         }
-        .btn-primary:hover { background-color: #1d4ed8; }
+        .btn-primary:hover { background-color: #1d4ed8; transform: scale(1.02); }
         
         .btn-secondary { 
             background-color: transparent; 
@@ -80,6 +80,11 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
             flex: 1; 
             border-top: 4px solid #3b82f6;
+            transition: all 0.3s ease; /* Smooth transition for hover */
+        }
+        .card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1); 
         }
         .card h3 { margin-top: 0; color: #1e293b; }
 
@@ -94,47 +99,62 @@
         }
         .form-group { margin-bottom: 20px; text-align: left; }
         label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
-        input[type="text"], input[type="email"] { 
+        input[type="email"] { 
             width: 100%; 
             padding: 12px; 
             border: 1px solid #cbd5e1; 
             border-radius: 6px; 
             box-sizing: border-box; 
         }
-        .btn-submit { width: 100%; background-color: #10b981; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            ring: 2px solid #bfdbfe;
+        }
+        .btn-submit { width: 100%; background-color: #10b981; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-submit:hover { background-color: #059669; }
+
+        #success-msg {
+            display: none;
+            color: #059669;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
 
     <header id="navbar">
         <div class="logo">AutoQA</div>
-        <div class="nav-links">
+        <nav class="nav-links">
             <a href="#">Products</a>
             <a href="#">Documentation</a>
             <a href="#" id="login-link">Login</a>
-        </div>
+        </nav>
     </header>
 
     <section class="hero">
         <h1>Ship Code with Confidence</h1>
         <p>Our AI-driven visual regression pipeline ensures your UI remains pixel-perfect across every release.</p>
         <div>
-            <button id="start-btn" class="btn btn-primary">Get Started</button>
-            <button id="demo-btn" class="btn btn-secondary">Watch Demo</button>
+            <button id="start-btn" class="btn btn-primary" data-testid="hero-start-btn">Get Started</button>
+            <button id="demo-btn" class="btn btn-secondary" data-testid="hero-demo-btn">Watch Demo</button>
         </div>
     </section>
 
     <section class="features" id="feature-grid">
-        <div class="card" id="card-1">
+        <div class="card" id="card-1" data-testid="feature-card">
             <h3>Automated Workflows</h3>
             <p>Trigger tests directly from your CI/CD pipeline.</p>
         </div>
-        <div class="card" id="card-2">
+        <div class="card" id="card-2" data-testid="feature-card">
             <h3>AI Reporting</h3>
             <p>Get plain-English summaries of visual diffs using GPT-4 Vision.</p>
         </div>
-        <div class="card" id="card-3">
-            <h3>Cross-Browser Compatibility</h3>
+        <div class="card" id="card-3" data-testid="feature-card">
+            <h3>Cross-Browser</h3>
             <p>Ensure consistency across Chrome, Safari, and Firefox.</p>
         </div>
     </section>
@@ -142,11 +162,31 @@
     <section class="form-container">
         <h3 style="margin-top:0; text-align:center;">Request Access</h3>
         <div class="form-group">
-            <label>Work Email</label>
-            <input type="email" id="email-input" placeholder="name@company.com">
+            <label for="email-input">Work Email</label>
+            <input type="email" id="email-input" data-testid="contact-email" placeholder="name@company.com" required>
         </div>
-        <button id="submit-btn" class="btn-submit">Submit Request</button>
+        <button id="submit-btn" class="btn-submit" data-testid="contact-submit">Submit Request</button>
+        <p id="success-msg" data-testid="success-message">🎉 Success! We'll reach out to you shortly.</p>
     </section>
+
+    <script>
+        // Simple Logic for Automation Testing
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            const email = document.getElementById('email-input').value;
+            if(email.includes('@')) {
+                this.innerText = "Sending...";
+                this.disabled = true;
+                
+                // Simulate a network delay
+                setTimeout(() => {
+                    document.getElementById('success-msg').style.display = 'block';
+                    this.style.display = 'none';
+                }, 1000);
+            } else {
+                alert("Please enter a valid email address.");
+            }
+        });
+    </script>
 
 </body>
 </html>
