@@ -17,8 +17,7 @@
         /* Navigation */
         header { 
             background-color: #ffffff; 
-            /* DEMO CHANGE: Increased vertical padding from 20px to 24px */
-            padding: 24px 50px; 
+            padding: 20px 50px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -38,8 +37,7 @@
             padding: 100px 20px; 
             background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%); 
         }
-        /* DEMO CHANGE: Increased margin-bottom from 10px to 15px */
-        .hero h1 { font-size: 3rem; margin-bottom: 15px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
         .hero p { font-size: 1.2rem; color: #475569; max-width: 600px; margin: 0 auto 30px; }
         
         /* Buttons */
@@ -50,14 +48,17 @@
             border-radius: 8px; 
             cursor: pointer; 
             transition: all 0.2s; 
+            border: none;
         }
-        /* BUG 1: Changed primary color from blue to purple */
+        
         .btn-primary { 
-            background-color: #9333ea; 
+            background-color: #2563eb; 
             color: white; 
-            border: none; 
         }
-        .btn-primary:hover { background-color: #7e22ce; }
+        .btn-primary:hover { 
+            background-color: #1d4ed8; 
+            transform: translateY(-1px); /* Added slight lift */
+        }
         
         .btn-secondary { 
             background-color: transparent; 
@@ -76,14 +77,16 @@
             max-width: 1000px; 
             margin: 0 auto; 
         }
-        /* BUG 2: Removed the blue top border from the cards */
         .card { 
             background: white; 
             padding: 30px; 
             border-radius: 12px; 
             box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
             flex: 1; 
+            border-top: 4px solid #2563eb;
+            transition: transform 0.2s;
         }
+        .card:hover { transform: translateY(-5px); } /* Added subtle hover effect */
         .card h3 { margin-top: 0; color: #1e293b; }
 
         /* Contact Form */
@@ -97,15 +100,27 @@
         }
         .form-group { margin-bottom: 20px; text-align: left; }
         label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
-        input[type="text"], input[type="email"] { 
+        input[type="email"] { 
             width: 100%; 
             padding: 12px; 
             border: 1px solid #cbd5e1; 
             border-radius: 6px; 
             box-sizing: border-box; 
         }
-        /* BUG 3: Broke the submit button styling (made text black, removed padding) */
-        .btn-submit { width: 100%; background-color: #10b981; color: black; border: none; padding: 5px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .btn-submit { 
+            width: 100%; 
+            background-color: #10b981; 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 6px; 
+            font-size: 1rem;
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-submit:hover { background-color: #059669; }
+        .btn-submit:active { transform: scale(0.98); } /* Feedback on click */
     </style>
 </head>
 <body>
@@ -119,9 +134,7 @@
     </header>
 
     <section class="hero">
-        <h1>Deploy Code Faster</h1>
-        <p>Our AI-driven visual regression pipeline ensures your UI remains pixel-perfect across every release.</p>
-        <div>
+        <h1>Deploy Quality Code Faster</h1> <p>Our AI-driven visual regression pipeline ensures your UI remains pixel-perfect through every release.</p> <div>
             <button id="start-btn" class="btn btn-primary">Get Started</button>
             <button id="demo-btn" class="btn btn-secondary">Watch Demo</button>
         </div>
@@ -130,21 +143,21 @@
     <section class="features" id="feature-grid">
         <div class="card" id="card-1">
             <h3>Automated Workflows</h3>
-            <p>Trigger tests directly from your CI/CD pipeline.</p>
+            <p>Trigger tests automatically from your CI/CD pipeline.</p>
         </div>
         <div class="card" id="card-3">
-            <h3>Cross-Browser</h3>
-            <p>Ensure consistency across Chrome, Safari, and Firefox.</p>
+            <h3>Cross-Browser Support</h3> <p>Ensure consistency across Chrome, Safari, and Firefox.</p>
         </div>
     </section>
 
     <section class="form-container">
         <h3 style="margin-top:0; text-align:center;">Request Access</h3>
-        <div class="form-group">
-            <label>Work Email</label>
-            <input type="email" id="email-input" placeholder="admin@domain.com">
-        </div>
-        <button id="submit-btn" class="btn-submit">Send messages</button>
+        <form onsubmit="event.preventDefault(); alert('Request Sent!');"> <div class="form-group">
+                <label for="email-input">Email Address</label>
+                <input type="email" id="email-input" placeholder="admin@domain.com" required>
+            </div>
+            <button type="submit" id="submit-btn" class="btn-submit">Submit Request</button>
+        </form>
     </section>
 
 </body>
